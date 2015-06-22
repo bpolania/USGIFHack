@@ -1,0 +1,5 @@
+{
+ "name": "ebola",
+ "children": 
+  [{"name":"nigeria","children":[{"name":"outbreak"},{"name":"talk","children":[{"name":"advise"},{"name":"asking"}]}]},{"name":"arrest","children":[{"name":"violence"},{"name":"worried"}]},{"name":"outbreak","children":[{"name":"disease"},{"name":"cholera"}]},{"name":"airport"}]
+}

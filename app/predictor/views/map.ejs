@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+   	<link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+	<script src="http://js.arcgis.com/3.13/"></script>
+	<script>
+		  var map;
+	require(["esri/map", "esri/arcgis/utils","esri/InfoTemplate","esri/request", "esri/tasks/locator","esri/geometry/webMercatorUtils","esri/geometry/Point", "esri/SpatialReference"], function(Map, arcgisUtils, InfoTemplate,esriRequest, Locator,webMercatorUtils, Point, SpatialReference) {
+		//var infoTemplate = new InfoTemplate("Attributes", "<tr>State Name: <td>${STATE_NAME}</tr></td><br><tr>Population:<td>${Pop2001}</tr></td>");
+	  arcgisUtils.createMap("7358542992624392a22af146e1a9ebf3", "mapDiv").then(function (response) {
+
+	  	  var locator = new Locator("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+
+	  	  locator.on("location-to-address-complete", function(evt) {
+          if (evt.address.address) {
+            var address = evt.address.address;
+            var location = webMercatorUtils.geographicToWebMercator(evt.address.location);
+            //this service returns geocoding results in geographic - convert to web mercator to display on map
+            // var location = webMercatorUtils.geographicToWebMercator(evt.location);
+           
+          }
+        });
+
+	  	  locator.on("error", function(evt) {
+          	alert(evt.filename);
+        });
+
+
+	      map = response.map;
+	      map.on("click", function(evt) {
+
+	      	  punto = webMercatorUtils.xyToLngLat(evt.mapPoint.x, evt.mapPoint.y);
+	      	  point = new Point(punto[1], punto[0], new SpatialReference({ wkid: 5070 }))
+			  map.infoWindow.setTitle("Coordinates");
+			  map.infoWindow.setContent("lat/lon : " + punto[1] + ", " + punto[0]);
+			  map.infoWindow.show(evt.screenPoint,map.getInfoWindowAnchor(evt.screenPoint));
+			  locator.locationToAddress(point, 100);
+			});
+
+	      
+
+
+
+
+	  });
+	   
+	});
+
+
+
+	</script>
+
+	<style>
+	  html, body, #mapDiv {
+	    padding: 0;
+	    margin: 0;
+	    height: 100%;
+	  }
+	</style>
+	
+  </head>
+
+  <body>
+
+  	<body class="claro">
+  <div id="mapDiv"></div>
+</body>
+  </body>
+</html>

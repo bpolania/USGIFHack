@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+   	<link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/control.css' />
+	<script src="http://js.arcgis.com/3.13/"></script>
+	<script>
+		  var map;
+	require(["esri/map", "esri/arcgis/utils", "dojo/domReady!","esri/InfoTemplate","esri/request"], function(Map, arcgisUtils, InfoTemplate,esriRequest) {
+		//var infoTemplate = new InfoTemplate("Attributes", "<tr>State Name: <td>${STATE_NAME}</tr></td><br><tr>Population:<td>${Pop2001}</tr></td>");
+	  arcgisUtils.createMap("3889d579c4274d9cb2168bae4fdcf772", "mapDiv").then(function (response) {
+
+	      map = response.map;
+	      	/*
+			map.on("click", function(evt) {
+			  map.infoWindow.setTitle("Coordinates");
+			  map.infoWindow.setContent("lat/lon : " + evt.mapPoint.y + ", " + evt.mapPoint.x);
+			  map.infoWindow.show(evt.screenPoint,map.getInfoWindowAnchor(evt.screenPoint));
+			});
+			*/
+
+	      var earthquakes = esriRequest({
+			  url: "http://earthquake.usgs.gov/earthquakes/feed/geojson/4.5/week",
+			  handleAs: "json"
+			});
+			
+
+	      //http://opendata.arcgis.com/datasets/9614011d24094d73803e28036f5ead46_0.geojson
+	  });
+	   
+	});
+
+	function requestSucceeded(data) {
+	  console.log("Data: ", data); // print the data to browser's console
+	}
+
+	function requestFailed(error) {
+	  console.log("Error: ", error.message);
+	}
+
+
+	</script>
+
+	<style>
+	  html, body, #mapDiv {
+	    padding: 0;
+	    margin: 0;
+	    height: 100%;
+	  }
+	</style>
+	
+  </head>
+
+  <body>
+
+  	<body class="claro">
+	
+		<div class="menu_fixed">
+				<a class="bt-menu"><span class="icon-menu"></span><img src="images/logo_barra.png"></a>
+			<nav>
+				<ul>
+					<li><a href="/data">Ontology</a></li>
+
+				</ul>
+			</nav>
+		</div>  
+<div id="mapDiv"></div>
+  <button>Ontology</button>
+</body>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+applications:
+- services:
+  - Personality Insights-t7
+  - AlchemyAPI-e8
+  - Relationship Extraction-jo
+  disk_quota: 1024M
+  host: context-io
+  name: Context-io
+  path: .
+  domain: mybluemix.net
+  instances: 1
+  memory: 256M

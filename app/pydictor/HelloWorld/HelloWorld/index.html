@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+	
+	<link rel="stylesheet" href="stylesheets/fv.css" type="text/css" />
+	<link rel='stylesheet' href='stylesheets/style.css' />
+    <link rel='stylesheet' href='stylesheets/control.css' />
+	
+  </head>
+
+  	<body>
+	<div class="menu_fixed">
+			
+		<nav>
+			<ul>
+				
+			</ul>
+		</nav>
+	</div>
+    
+    <div id='wrap'>
+		<section class='form'>
+			<form action="" method="post" novalidate>
+				<fieldset>
+					<div class="item">
+						<label>
+							<span>title of search</span>
+							<input data-validate-length-range="6" data-validate-words="1" name="name" placeholder="at least two words" required="required" />
+						</label>
+						<div class='tooltip help'>
+							<span>?</span>
+							<div class='content'>
+								<b></b>
+								<p>Title must be at least 2 words, if you are specific you reciive better predictions</p>
+							</div>
+						</div>
+					</div>
+					
+					
+				</fieldset>	
+					<div class="item">
+						<label>
+							<span>Country</span>
+							<select class="required" name="dropdown">
+								<option value="">-- none --</option>
+								<option value="NGA">Nigeria</option>
+								<option value="TGO">Togo</option>
+								<option value="MLI">Mali</option>
+								<option value="BEN">Benin</option>
+								<option value="BFA">Burkina Faso</option>
+								<option value="SLE">Sierra Leona</option>
+								<option value="GHA">Ghana</option>
+								<option value="GIN">Guinea</option>
+								<option value="LBR">Liberia</option>
+								<option value="NER">Niger</option>
+								<option value="CIV">Ivory Coast</option>
+							</select>
+						</label>
+						<div class='tooltip help'>
+							<span>?</span>
+							<div class='content'>
+								<b></b>
+								<p>Choose your first graphic for see the data</p>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<label>
+							<span>Description</span>
+							<textarea required="required" name='message'></textarea>
+						</label>
+					</div>
+				</fieldset>
+				<fieldset>
+					<p>Here you can be especific than you can, that increase the preccision of your prediction</p>
+					<input name="somethingHidden" required="required" type="text" style='display:none' />
+				</fieldset>
+				<button id='send' type='submit'>Submit</button>
+			</form>
+		</section>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/javascripts/multifield.js"></script>
+    <script src="/javascripts/validator.js"></script>
+
+	<script>
+		// initialize the validator function
+		validator.message['date'] = 'not a real date';
+		var listCountry = document.getElementById("dropdown");
+
+		// validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+		$('form')
+			.on('blur', 'input[required], input.optional, select.required', validator.checkField)
+			.on('change', 'select.required', validator.checkField)
+			.on('keypress', 'input[required][pattern]', validator.keypress);
+
+		$('.multi.required')
+			.on('keyup blur', 'input', function(){
+				validator.checkField.apply( $(this).siblings().last()[0] );
+			});
+
+		// bind the validation to the form submit event
+		//$('#send').click('submit');//.prop('disabled', true);
+
+		$('form').submit(function(e){
+			e.preventDefault();
+			var valorSeleccionado = lista.options[lista.selectedIndex].value;
+			var submit = true;
+			document.location.href = "/"; 
+			// evaluate the form using generic validaing
+			if( !validator.checkAll( $(this) ) ){
+				submit = false;
+			}
+
+			if( submit )
+				this.submit();
+			return false;
+		});
+
+	</script>
+</body>
+</html>
